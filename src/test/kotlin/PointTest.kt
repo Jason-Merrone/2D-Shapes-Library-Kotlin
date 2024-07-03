@@ -1,24 +1,42 @@
 package org.example
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class PointTest {
-    private val point1 = Point(1.0,2.0)
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+
+internal class PointTest {
+
     @Test
-    fun testGettingPoints() {
-        assertEquals(1.0,point1.getXCoordinate())
-        assertEquals(2.0,point1.getYCoordinate())
+    fun testGetXCoordinate() {
+        val point = Point(1.0, 2.0)
+        assertEquals(1.0, point.getXCoordinate())
     }
+
     @Test
-    fun testClonePoint() {
-        val clone = point1.clonePoint()
-        assertEquals(1.0, clone.getXCoordinate())
-        assertEquals(2.0, clone.getYCoordinate())
+    fun testGetYCoordinate() {
+        val point = Point(1.0, 2.0)
+        assertEquals(2.0, point.getYCoordinate())
     }
+
     @Test
-    fun testMovePoint(){
-        point1.movePoint(1.0,-1.0)
-        assertEquals(2.0, point1.getXCoordinate())
-        assertEquals(1.0, point1.getYCoordinate())
+    fun testClone() {
+        val point = Point(1.0, 2.0)
+        val clone = point.clone()
+        assertEquals(point.getXCoordinate(), clone.getXCoordinate())
+        assertEquals(point.getYCoordinate(), clone.getYCoordinate())
+    }
+
+    @Test
+    fun testMove() {
+        val point = Point(1.0, 2.0)
+        point.move(2.0, 3.0)
+        assertEquals(3.0, point.getXCoordinate())
+        assertEquals(5.0, point.getYCoordinate())
+    }
+
+    @Test
+    fun testInvalidCoordinatesNaN() {
+        assertThrows<IllegalArgumentException> { Point(Double.NaN, 1.0) }
+        assertThrows<IllegalArgumentException> { Point(1.0, Double.NaN) }
     }
 }
